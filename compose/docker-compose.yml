@@ -4,12 +4,10 @@ services:
   db:
     image: mariadb:10.7
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
-    ports:
-      - 3306:3306
     volumes:
-      - "./db:/var/lib/mysql"
+      - "./mount/db:/var/lib/mysql"
     environment:
-      - "TZ=Asia/Shanghai"
+      - "TZ=UTC"
       - "MYSQL_ROOT_PASSWORD=root"
       - "MYSQL_DATABASE_FILE=/run/secrets/mysql_db"
       - "MYSQL_USER_FILE=/run/secrets/mysql_user"
@@ -23,11 +21,11 @@ services:
   app:
     image: oaooa/pichome
     ports:
-      - 80:80
+      - 8095:80
     links:
       - db
     volumes:
-      - "./site:/var/www/html"
+      - "./mount/site:/var/www/html"
     environment:
       - "MYSQL_SERVER=db"
       - "MYSQL_DATABASE_FILE=/run/secrets/mysql_db"
@@ -39,7 +37,7 @@ services:
       - mysql_password
       - mysql_user
 
- 
+
 
 secrets:
   mysql_db:
