@@ -36,6 +36,16 @@ services:
     volumes:
       - "./site:/var/www/html"
       - "./ssl:/etc/nginx/ssl"
+      #
+      # For linux host, make sure user "www-data" with UID 33 can access image directories.
+      #
+      # To minimize change of file permission, use package "acl" rather than "chown/chmod".
+      # Use following commands on linux host: 
+      #
+      # - install package "acl"  = `sudo apt install acl` OR `sudo yum install acl`
+      # - create user "www-data" = `sudo groupadd -g 33 www-data && sudo useradd -u 33 -g 33 -s /usr/sbin/nologin www-data`
+      # - add permission on host = `sudo setfacl -R -m u:www-data:rX <dir> && sudo setfacl -d -m u:www-data:rX <dir>`
+      #
     environment:
       - "MYSQL_SERVER=db"
       - "MYSQL_DATABASE_FILE=/run/secrets/mysql_db"

@@ -21,6 +21,7 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     (apt-get update -y || (sleep 5 && apt-get update -y)) && \
     apt-get install -y --no-install-recommends \
+    acl \
     ca-certificates \
     curl \
     gnupg \
