@@ -4,8 +4,6 @@ services:
   db:
     image: mariadb:10.7
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
-    ports:
-      - 3307:3306
     volumes:
       - "./db:/var/lib/mysql"
     environment:
@@ -28,6 +26,8 @@ services:
       - TZ=Asia/Shanghai
   app:
     image: oaooa/pichome
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - 8088:80
     links:
